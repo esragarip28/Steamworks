@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -112,6 +116,7 @@ public class GameManager : MonoBehaviour
     public void HostCreated()
     {
         multiMenu.SetActive(false);
+
         multiLobby.SetActive(true);
         isHost = true;
         connected = true;
@@ -120,6 +125,7 @@ public class GameManager : MonoBehaviour
     public void ConnectedAsClient()
     {
         multiMenu.SetActive(false);
+
         multiLobby.SetActive(true);
         isHost = false;
         connected = true;
@@ -135,6 +141,7 @@ public class GameManager : MonoBehaviour
         }
 
         multiMenu.SetActive(true);
+
         multiLobby.SetActive(false);
         isHost = false;
         connected = false;
@@ -182,13 +189,13 @@ public class GameManager : MonoBehaviour
         }
         if(_value!= null)
         {
-            Destroy(_value);
+            Destroy(obj: _value);
         }
     }
 
     public void ReadyButton(bool _ready)
     {
-        NetworkTransmission.instance.IsTheClientReadyServerRPC(_ready, myClientId);
+        NetworkTransmission.instance.IsTheClientReadyServerRPC(_ready, _clientId: myClientId);
     }
 
     public bool CheckIfPlayersAreReady()
@@ -215,5 +222,47 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    //   private void Start()
+    // {
+    //     // Get the Button component from the GameObject
+    //     Button strBtn = startButton.GetComponent<Button>();
+    //     // Add a listener to the button's onClick event
+    //     strBtn.onClick.AddListener(OnStartButtonClicked);
+    // }
+
+    // public void OnStartButtonClicked()
+    // {
+    //     Debug.Log("Start button clicked");
+    //     Debug.Log("Starting the game...");
+    //     Debug.Log("value of the ready "+CheckIfPlayersAreReady());
+    //     // Check if all players are ready
+    //     if (CheckIfPlayersAreReady())
+    //     {
+    //         // If all players are ready, proceed with the game
+    //         Debug.Log("All players are ready. Starting the game...");
+    //         ChangeScene(sceneName: "GameScene");
+
+
+    //     }
+    //     else
+    //     {
+    //         // If not all players are ready, show a message
+    //         Debug.Log("Not all players are ready yet.");
+    //     }
+    // }
+
+    //  public void ChangeScene(string sceneName)
+    // {
+    //     // Check if this client is the server
+    //     if (NetworkManager.Singleton.IsServer)
+    //     {
+    //        SceneManager.LoadScene(sceneName);
+    //     }
+    // }
+
+    public void OnStartButtonClicked(){
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 }
