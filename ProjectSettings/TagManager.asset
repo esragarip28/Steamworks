@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ChatMessage
   - PlayerCard
+  - LobbyRow
   layers:
   - Default
   - TransparentFX
